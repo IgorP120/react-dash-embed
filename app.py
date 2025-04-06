@@ -7,7 +7,7 @@ from dash_extensions.javascript import assign
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
-app = Dash(external_scripts=['assets/react_app.js'])  # Load the React app script
+app = Dash(external_scripts=['assets/react_app.js', 'assets/onload.js'])  # Load the React app script
 app.title = 'Dash App with React Component'
 
 page_load_event_handler = assign("""
@@ -25,7 +25,7 @@ app.layout = [
     html.Div(id='react-app-container'),
     EventListener(
         id="event-listener",
-        events=[{ "event": "load", "props": { "id": "page-load", "handler": page_load_event_handler }}],
+        events=[{"event": "DOMContentLoaded", "props": {}, "handler": page_load_event_handler}],
         children=[]
     )
 ]
