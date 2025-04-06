@@ -6,10 +6,12 @@ from dash_extensions.javascript import assign
 # from callbacks.client_callback import register_client_callback
 import json
 
+from src.decorators.endpoint import endpoint
+
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
-app = Dash(suppress_callback_exceptions=True, external_scripts=['assets/react_app.js', 'assets/onload.js'])  # Load the React app script
-app.title = 'Dash App with React Component'
+dash_app = Dash(suppress_callback_exceptions=True, external_scripts=['assets/react_app.js', 'assets/onload.js'])  # Load the React app script
+dash_app.title = 'Dash App with React Component'
 
 page_load_event_handler = assign("""
     function(event) {
@@ -19,7 +21,7 @@ page_load_event_handler = assign("""
 """)
 
 # Requires Dash 2.17.0 or later
-app.layout = [
+dash_app.layout = [
     html.H1(children='Title of Dash App', style={'textAlign':'center'}),
     dcc.Dropdown(df.country.unique(), 'Canada', id='dropdown-selection'),
     dcc.Graph(id='graph-content'),
@@ -42,14 +44,9 @@ def update_graph(value):
 
 
 
-# Custom decorator, to simplify things.
-def endpoint(endpoint_name):
-    def decorator(cls):
-        return app.callback([Output(endpoint_name, "data"), Input("body", "value")], prevent_initial_call=True)(cls)
-    return decorator
 
 # register_client_callback(app)
-@endpoint("test1")
+@endpoint(dash_app, "test1")
 def test1_endpoint(body):
     payload = json.loads(body)
     res = { "test1": "ok", "payload": payload }
@@ -59,4 +56,4 @@ def test1_endpoint(body):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    dash_app.run(debug=True)
