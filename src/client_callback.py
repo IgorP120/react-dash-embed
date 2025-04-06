@@ -1,29 +1,28 @@
-from app import app
+from dash import Output, Input
 
-app.clientside_callback(
-    """
-    function(){
-        console.log('callback1');
-        const ctx = dash_clientside.callback_context;
-        console.log('ctx=', ctx);
-        // const triggered_id = ctx.triggered_id;
-        
-        setTimeout(() => {
-            const htmlEl = dash_clientside.my_ag_grid.render();
-            console.log('htmlEl=', htmlEl);
-            const appContainer = document.getElementById('grid-output');
-            appContainer.appendChild(htmlEl);
-        }, 100);
-        
-        return 'test';
-    }
-    """,
-    Output("grid-output", "className"),
-    Input("grid-output", "id")
-)    
+def register_client_callback(app):
+    app.clientside_callback(
+        """
+        function(){
+            console.log('callback1');
+            const ctx = dash_clientside.callback_context;
+            console.log('ctx=', ctx);
+            // const triggered_id = ctx.triggered_id;
+            
+            setTimeout(() => {
+                const htmlEl = dash_clientside.my_ag_grid.render();
+                console.log('htmlEl=', htmlEl);
+                const appContainer = document.getElementById('grid-output');
+                appContainer.appendChild(htmlEl);
+            }, 100);
+            
+            return 'test';
+        }
+        """,
+        Output("grid-output", "className"),
+        Input("grid-output", "id")
+    )    
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=8050)
 
 # # Serve static assets explicitly to bypass auth, getting HTTP 401 otherwise
 # @server.route('/assets/<path:filename>')

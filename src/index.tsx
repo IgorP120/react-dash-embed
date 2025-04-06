@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import AgGridComponent from './components/AgGridComponent';
+import { AgGridComponent } from './components/AgGridComponent';
 
 const MyAgGridComponent = (props: any) => {
   return <AgGridComponent {...props} />;

@@ -1,6 +1,7 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
+from client_callback import register_client_callback
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
@@ -20,6 +21,9 @@ app.layout = [
 def update_graph(value):
     dff = df[df.country==value]
     return px.line(dff, x='year', y='pop')
+
+
+register_client_callback(app)
 
 if __name__ == '__main__':
     app.run(debug=True)

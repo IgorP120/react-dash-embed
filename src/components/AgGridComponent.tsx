@@ -16,7 +16,7 @@ interface AgGridComponentProps {
   // onDataRequest?: (params: IServerSideGetRowsParams) => void;
 }
 
-const AgGridComponent: React.FC<AgGridComponentProps> = () => {
+export const AgGridComponent: React.FC<AgGridComponentProps> = () => {
   const [data, setData] = useState<any[]>(testData);
   const [gridApi, setGridApi] = useState<any>(null);
 
@@ -115,4 +115,5 @@ const AgGridComponent: React.FC<AgGridComponentProps> = () => {
       />
     </div>
 
-    
+  );
+}
