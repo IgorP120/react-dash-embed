@@ -1,11 +1,5 @@
-function test1(event) {
-    console.log('Page loaded2!');
-    alert('Welcome to the Dash App2!');
-}
-
-// test1();
-
-// document.addEventListener('DOMContentLoaded', test1, false);
+// Flag to ensure the function is only called once
+let isReactAppContainerRendered = false;
 
 // Function to execute when the 'react-app-container' is rendered
 function onReactAppContainerRendered() {
@@ -21,6 +15,9 @@ function onReactAppContainerRendered() {
 
 // Create a MutationObserver to watch for changes in the DOM
 const observer = new MutationObserver((mutationsList, observer) => {
+    if (isReactAppContainerRendered) {
+        return; // Exit early if the function has already been called
+    }
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             // Check if 'react-app-container' is now in the DOM
@@ -28,7 +25,9 @@ const observer = new MutationObserver((mutationsList, observer) => {
             if (reactAppContainer) {
                 // Stop observing once the element is found
                 observer.disconnect();
+                isReactAppContainerRendered = true; // Set the flag to true
                 onReactAppContainerRendered();
+                break; // Exit the loop
             }
         }
     }
