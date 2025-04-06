@@ -4,10 +4,11 @@ import pandas as pd
 from dash_extensions import EventListener
 from dash_extensions.javascript import assign
 # from callbacks.client_callback import register_client_callback
+import json
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
-app = Dash(external_scripts=['assets/react_app.js', 'assets/onload.js'])  # Load the React app script
+app = Dash(suppress_callback_exceptions=True, external_scripts=['assets/react_app.js', 'assets/onload.js'])  # Load the React app script
 app.title = 'Dash App with React Component'
 
 page_load_event_handler = assign("""
@@ -22,6 +23,7 @@ app.layout = [
     html.H1(children='Title of Dash App', style={'textAlign':'center'}),
     dcc.Dropdown(df.country.unique(), 'Canada', id='dropdown-selection'),
     dcc.Graph(id='graph-content'),
+    dcc.Input(id='body', type='hidden', value='{}'),  # Hidden input to trigger the callback
     html.Div(id='react-app-container'),
     EventListener(
         id="event-listener",
@@ -39,7 +41,22 @@ def update_graph(value):
     return px.line(dff, x='year', y='pop')
 
 
+
+# Custom decorator, to simplify things.
+def endpoint(endpoint_name):
+    def decorator(cls):
+        return app.callback([Output(endpoint_name, "data"), Input("body", "value")], prevent_initial_call=True)(cls)
+    return decorator
+
 # register_client_callback(app)
+@endpoint("test1")
+def test1_endpoint(body):
+    payload = json.loads(body)
+    res = { "test1": "ok", "payload": payload }
+    return [res]
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

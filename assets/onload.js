@@ -4,7 +4,7 @@ let isReactAppContainerRendered = false;
 // Function to execute when the 'react-app-container' is rendered
 function onReactAppContainerRendered() {
     console.log("'react-app-container' has been rendered!");
-    alert("React App Container is ready!");
+    // alert("React App Container is ready!");
     setTimeout(() => {
         const reactRootElement = dash_clientside.react_app.render();
         // console.log('htmlEl=', htmlEl);
