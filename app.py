@@ -1,17 +1,19 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
-from client_callback import register_client_callback
+# from callbacks.client_callback import register_client_callback
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
-app = Dash()
+app = Dash(external_scripts=['assets/react_app.js'])  # Load the React app script
+app.title = 'Dash App with React Component'
 
 # Requires Dash 2.17.0 or later
 app.layout = [
     html.H1(children='Title of Dash App', style={'textAlign':'center'}),
     dcc.Dropdown(df.country.unique(), 'Canada', id='dropdown-selection'),
-    dcc.Graph(id='graph-content')
+    dcc.Graph(id='graph-content'),
+    html.Div(id='react-app-container')
 ]
 
 @callback(
@@ -23,7 +25,7 @@ def update_graph(value):
     return px.line(dff, x='year', y='pop')
 
 
-register_client_callback(app)
+# register_client_callback(app)
 
 if __name__ == '__main__':
     app.run(debug=True)
