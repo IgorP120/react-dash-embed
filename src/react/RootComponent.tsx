@@ -41,19 +41,29 @@ export const RootComponent: React.FC<Props> = () => {
     setData(data);
   };
 
+  const loadPopulationData = async () => {
+    const data = await post('get-population-data', {});
+    alert(JSON.stringify(data));
+  };
+
   // themes:  ag-theme-balham-dark, ag-theme-quartz-dark, ag-theme-alpine-dark
   return (
     <div>
 
       <hr />
-      <h3>This React app is fully independent on the cliend side, but has access to all Plotly Dash server-side data</h3>
-      <button
-        onClick={loadData}
-        style={{ cursor: 'pointer', fontSize: '20px' }}
-        title="Fetch data from the server side"
-      >
-        Load Grid Data
-      </button>
+      <h3>React app below is fully independent on the cliend side, but has access to all Plotly Dash server-side data</h3>
+      <span>
+        <button
+          onClick={loadData}
+          style={{ cursor: 'pointer', fontSize: '20px', marginRight: '2rem' }}
+          title="Fetch data from the server side"
+        >
+          Load Grid Data
+        </button>
+        <button onClick={loadPopulationData}>
+          Load Population Data
+        </button>
+      </span>
       <div className="ag-theme-alpine-dark" style={{ height: 'calc(100vh - 17rem)', width: '100%' }}>
         <AgGridReact
           columnDefs={columnDefs}

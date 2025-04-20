@@ -36,7 +36,7 @@ def register_endpoints(app):
         df = pd.read_csv(
             "https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv"
         )
-        return [df]
+        return [df.to_dict()]
 
     @endpoint(app, "test1")
     def test1_endpoint(body):
