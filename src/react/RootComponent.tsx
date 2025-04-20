@@ -1,40 +1,79 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { post } from './helpers/api';
-// import { AgGridReact } from 'ag-grid-react';
-// import 'ag-grid-community/styles/ag-grid.css';
-// import 'ag-grid-community/styles/ag-theme-alpine.css';
-// import { ColDef } from 'ag-grid-community';
-// import { ServerSideRowModelModule, IServerSideDatasource, IServerSideGetRowsParams } from 'ag-grid-community';
-
-const testData = [
-  { name: 'John Doe', age: 10, city: 'Toronto'},
-  { name: 'James Cameron', age: 11, city: 'New York'},
-  { name: 'Fannie Mae', age: 20, city: 'San Francisco'},
-];
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { ColDef } from 'ag-grid-community';
 
 interface Props {
-  // id: string;
-  // onDataRequest?: (params: IServerSideGetRowsParams) => void;
+  // empty for now
 }
 
 export const RootComponent: React.FC<Props> = () => {
-  const [data, setData] = useState<any[]>(testData);
+  const [data, setData] = useState<any[]>([]);
 
-  useEffect(() => {
-      console.log('cookies', document.cookie);
+  const [gridApi, setGridApi] = useState<any>(null);
 
-      async function fetchData() {
-          const result = await post('test1', { id: 'test1-data' });
-          alert('Data fetched successfully!' + JSON.stringify(result));
-          console.log('Data fetched successfully!', result);
-      }
+  const columnDefs: ColDef[] = useMemo(() => [
+    { headerName: 'ID', field: 'id', sortable: true, filter: 'agNumberColumnFilter'},
+    { headerName: 'Name', field: 'name', sortable: true, filter: 'agTextColumnFilter' },
+    { headerName: 'Age', field: 'age', sortable: true, filter: 'agNumberColumnFilter' },
+    { headerName: 'City', field: 'city', sortable: true, filter: 'agTextColumnFilter' },
+  ], []);
 
-      fetchData();
+  const defaultColDef = useMemo(() => ({
+    flex: 1,
+    minWidth: 100,
+    resizable: true,
+    filter: true,
+  }), []);
+
+
+  const onGridReady = useCallback((params: any) => {
+    const gridApi = params.api;
+    setGridApi(gridApi);
+    console.log('ag-grid ready', gridApi);
+    // params.api.setServerSideDatasource(dataSource);
   }, []);
 
+  const loadData = async () => {
+    const data = await post('get-people', {});
+    setData(data);
+  };
+
+  const loadPopulationData = async () => {
+    const data = await post('get-population-data', {});
+    alert(JSON.stringify(data));
+  };
+
+  // themes:  ag-theme-balham-dark, ag-theme-quartz-dark, ag-theme-alpine-dark
   return (
     <div>
-      <h1>My React App</h1>
+
+      <hr />
+      <h3>React app below is fully independent on the cliend side, but has access to all Plotly Dash server-side data</h3>
+      <span>
+        <button
+          onClick={loadData}
+          style={{ cursor: 'pointer', fontSize: '20px', marginRight: '2rem' }}
+          title="Fetch data from the server side"
+        >
+          Load Grid Data
+        </button>
+        <button onClick={loadPopulationData}>
+          Load Population Data
+        </button>
+      </span>
+      <div className="ag-theme-alpine-dark" style={{ height: 'calc(100vh - 17rem)', width: '100%' }}>
+        <AgGridReact
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          onGridReady={onGridReady}
+          rowData={data}
+          className='ag-theme-alpine-dark'
+        />
+      </div>
     </div>
   );
 }
+
