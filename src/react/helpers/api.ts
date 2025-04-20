@@ -24,7 +24,7 @@ export async function post(endpoint: string, data: any) {
         headers: {
             'Content-Type': 'application/json',
         },
-        credentials: 'include',
+        credentials: 'include', // important for Dash authentication: sends the Session cookie
         body: JSON.stringify(payload),
     });
 

@@ -18,6 +18,8 @@ Compile React app and watch for changes:<br />
 Start Plotly Dash app from a different terminal window:<br />
 `python app.py`
 
+In web browser open `http://127.0.0.1:8050`
+
 
 ## Deploy to prod
 
