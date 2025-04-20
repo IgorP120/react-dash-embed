@@ -18,7 +18,7 @@ def init():
     # Requires Dash 2.17.0 or later
     dash_app.layout = [
         # Dash app, just as an example. Can be removed
-        html.H1(children=dash_app.title, style={"textAlign": "center"}),
+        html.H2(children=dash_app.title, style={"textAlign": "center"}),
         dcc.Dropdown(df.country.unique(), "Canada", id="dropdown-selection"),
         dcc.Graph(id="graph-content"),
         # Container for the independent React-18 app with access to Dash api endpoints

@@ -44,7 +44,16 @@ export const RootComponent: React.FC<Props> = () => {
   // themes:  ag-theme-balham-dark, ag-theme-quartz-dark, ag-theme-alpine-dark
   return (
     <div>
-      <button onClick={loadData} style={{ cursor: 'pointer' }}>Load Data</button>
+
+      <hr />
+      <h3>This React app is fully independent on the cliend side, but has access to all Plotly Dash server-side data</h3>
+      <button
+        onClick={loadData}
+        style={{ cursor: 'pointer', fontSize: '20px' }}
+        title="Fetch data from the server side"
+      >
+        Load Grid Data
+      </button>
       <div className="ag-theme-alpine-dark" style={{ height: 'calc(100vh - 17rem)', width: '100%' }}>
         <AgGridReact
           columnDefs={columnDefs}

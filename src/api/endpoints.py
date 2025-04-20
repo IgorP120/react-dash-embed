@@ -1,6 +1,6 @@
 import json
+import pandas as pd
 from ..decorators.endpoint import endpoint
-
 
 def register_endpoints(app):
 
@@ -30,6 +30,13 @@ def register_endpoints(app):
             {"id": 20, "name": "Daniel Scott", "age": 47, "city": "Phoenix"},
         ]
         return [data]
+
+    @endpoint(app, "get-population-data")
+    def get_population(body):
+        df = pd.read_csv(
+            "https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv"
+        )
+        return [df]
 
     @endpoint(app, "test1")
     def test1_endpoint(body):
