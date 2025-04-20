@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: './src/react/index.tsx',
   output: {
     path: path.resolve(__dirname, 'assets'),
-    filename: 'my-ag-grid.js',
-    library: 'MyAgGrid',
+    filename: 'react-app.js',
+    library: 'MyReactApp',
     libraryTarget: 'window',
   },
   module: {
