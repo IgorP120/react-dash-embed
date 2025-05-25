@@ -1,6 +1,8 @@
-# Fully independent React app can be embedded into the Plotly Dash app, sharing the same server-side data
+# Embed full-scale React app into Plotly Dash app
 
-## Install
+## React app can share all Plotly authentication and authorization rules, as well as the server-side data.
+
+### Install
 
 `python -m venv venv`
 
@@ -10,7 +12,7 @@
 
 `npm install`
 
-## Run locally
+### Run locally
 
 Compile React app and watch for changes:<br />
 `npm run dev`
@@ -21,7 +23,7 @@ Start Plotly Dash app from a different terminal window:<br />
 In web browser open `http://127.0.0.1:8050`
 
 
-## Deploy to prod
+### Deploy to prod
 
 Compile React app in prod mode:<br />
 `npm run build`
