@@ -1,6 +1,6 @@
 # Embed full-scale React app into Plotly Dash app
 
-## React app is fully independent, but can share all Plotly authentication and authorization rules, as well as the server-side data.
+## React app is fully independent, but can share all Plotly authentication and authorization settings, as well as the server-side data.
 
 ### Install
 
